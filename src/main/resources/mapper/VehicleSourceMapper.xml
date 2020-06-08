@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yangyl.manage.mapper.VehicleSourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yangyl.manage.entity.VehicleSource">
+        <id column="id" property="id"/>
+        <result column="customer_code" property="customerCode"/>
+        <result column="vehicle_code" property="vehicleCode"/>
+        <result column="vehicle_name" property="vehicleName"/>
+        <result column="Column 4" property="Column 4"/>
+        <result column="purchase_price" property="purchasePrice"/>
+        <result column="sale_price" property="salePrice"/>
+        <result column="profitability" property="profitability"/>
+        <result column="purchase_date" property="purchaseDate"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_by" property="createBy"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="repayment_date" property="repaymentDate"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <select id="pages" resultType="com.yangyl.manage.model.vo.VehicleSourceVo">
+        SELECT
+        vsl.id,
+        vsl.customer_code as customerCode,
+        vsl.vehicle_code as vehicleCode,
+        vsl.vehicle_name as vehicleName,
+        vsl.license_plate as licensePlate,
+        vsl.purchase_price as purchasePrice,
+        vsl.purchase_date as purchaseDate,
+        vsl.down_payment as downPayment,
+        vsl.period_number as periodNumber,
+        vsl.monthly_contribution as monthlyContribution,
+        vsl.actual_payment_amount as actualPaymentAmount,
+        vsl.current_period_pay_status as currentPeriodPayStatus,
+        vsl.phasing_status as phasingStatus,
+        (SELECT rr.repayment_date FROM repayment_records rr WHERE rr.vehicle_code = vsl.vehicle_code AND
+        rr.repayment_status = 0 ORDER BY rr.repayment_date ASC LIMIT 0,1) as repayment_date,
+        vsl.create_time,
+        vsl.is_delete
+        FROM
+        vehicle_source vsl
+        LEFT JOIN repayment_records rr on vsl.vehicle_code = rr.vehicle_code
+        where vsl.is_delete = 0 and vsl.customer_code = #{customerCode}
+        <if test="settleType == 1">
+            AND DATEDIFF(rr.repayment_date,NOW()) <![CDATA[ <= ]]> 3
+            AND DATEDIFF(rr.repayment_date,NOW()) <![CDATA[ >= ]]> 0
+        </if>
+        <if test="settleType == 2">
+            AND DATEDIFF(rr.repayment_date,NOW()) <![CDATA[ < ]]> 0
+        </if>
+        <if test="settleType == 3">
+            AND vsl.phasing_status = 1
+        </if>
+        <if test="repaymentsType == 1">
+            AND vsl.current_period_pay_status = 1
+        </if>
+        <if test="repaymentsType == 2">
+            AND vsl.current_period_pay_status = 0
+        </if>
+        <if test="vehicleName != null and vehicleName != ''">
+            and vsl.vehicle_name like CONCAT('%',#{vehicleName},'%')
+        </if>
+        <if test="licensePlate != null and licensePlate != ''">
+            and vsl.license_plate like CONCAT('%',#{licensePlate},'%')
+        </if>
+        <if test="startTime != '' and startTime != null ">
+            and vsl.create_time <![CDATA[>=]]> CONCAT(#{startTime} ,' 00:00:00')
+        </if>
+        <if test="endTime != '' and endTime != null">
+            and vsl.create_time <![CDATA[<=]]> CONCAT(#{endTime} ,' 23:59:59')
+        </if>
+        group by vsl.id,
+        vsl.customer_code,
+        vsl.vehicle_code,
+        vsl.vehicle_name,
+        vsl.license_plate,
+        vsl.purchase_price,
+        vsl.purchase_date,
+        vsl.down_payment,
+        vsl.period_number,
+        vsl.monthly_contribution,
+        vsl.phasing_status,
+        vsl.current_period_pay_status,
+        vsl.create_time,
+        vsl.is_delete,
+        (SELECT rr.repayment_date FROM repayment_records rr WHERE rr.vehicle_code = vsl.vehicle_code AND
+        rr.repayment_status = 0 ORDER BY rr.repayment_date ASC LIMIT 0,1)
+        order by vsl.create_time desc
+    </select>
+
+</mapper>

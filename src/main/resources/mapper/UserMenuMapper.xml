@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yangyl.manage.mapper.UserMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yangyl.manage.entity.UserMenu">
+        <result column="user_code" property="userCode" />
+        <result column="menu_code" property="menuCode" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yangyl.manage.mapper.RepaymentRecordsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yangyl.manage.entity.RepaymentRecords">
+        <id column="id" property="id" />
+        <result column="vehicle_code" property="vehicleCode" />
+        <result column="repayment_amount" property="repaymentAmount" />
+        <result column="repayment_status" property="repaymentStatus" />
+        <result column="repayment_date" property="repaymentDate" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+</mapper>
