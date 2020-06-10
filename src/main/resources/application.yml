@@ -54,4 +54,4 @@ jwt:
   expiration: 86400
   tokenHead: "Bearer "
 server:
-  port: 80
+  port: 8089

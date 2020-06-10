@@ -34,6 +34,9 @@ public class VehicleSaleInfoDto {
     @ApiModelProperty(value = "车牌号码")
     private String licensePlate;
 
+    @ApiModelProperty(value = "采购日期")
+    private Date purchaseDate;
+
     @ApiModelProperty(value = "总金额")
     private BigDecimal totalAmount;
 

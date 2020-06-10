@@ -62,6 +62,9 @@ public class VehicleSaleInfo implements Serializable {
     @ApiModelProperty(value = "期数")
     private Integer periodNumber;
 
+    @ApiModelProperty(value = "采购日期")
+    private Date purchaseDate;
+
     @ApiModelProperty(value = "月供金额")
     private BigDecimal monthlyContribution;
 
