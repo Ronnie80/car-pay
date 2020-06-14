@@ -17,4 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerInfoServiceImpl extends ServiceImpl<CustomerInfoMapper, CustomerInfo> implements CustomerInfoService {
 
+    public CustomerInfo getByCustomerCode(String customerCode) {
+        return this.baseMapper.getByCustomerCode(customerCode);
+    }
 }

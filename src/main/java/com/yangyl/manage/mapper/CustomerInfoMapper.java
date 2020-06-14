@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-05-16
  */
 public interface CustomerInfoMapper extends BaseMapper<CustomerInfo> {
-
+    CustomerInfo getByCustomerCode(String customerCode);
 }

@@ -127,4 +127,14 @@ public class VehicleSourceServiceImpl extends ServiceImpl<VehicleSourceMapper, V
     public VehicleSource getInfoByVehicleCode(String vehicleCode) {
         return this.baseMapper.getInfoByVehicleCode(vehicleCode);
     }
+
+    @Transactional
+    public boolean removeSource(Integer id) {
+        VehicleSource vehicleSource = this.getById(id);
+        boolean removeFlag = this.removeById(id);
+        CustomerInfo customerInfo = customerInfoService.getByCustomerCode(vehicleSource.getCustomerCode());
+        customerInfo.setSalesNumber(customerInfo.getSalesNumber() - 1);
+        boolean cntDownSalesFlag = customerInfoService.updateById(customerInfo);
+        return  (removeFlag && cntDownSalesFlag);
+    }
 }

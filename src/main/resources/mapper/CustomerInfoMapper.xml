@@ -15,4 +15,8 @@
         <result column="remark" property="remark" />
     </resultMap>
 
+    <select id="getByCustomerCode" parameterType="java.lang.String"  resultType="com.yangyl.manage.entity.CustomerInfo">
+        SELECT * FROM customer_info where customer_code = #{customerCode}
+    </select>
+
 </mapper>

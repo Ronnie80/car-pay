@@ -17,6 +17,7 @@ import xin.xihc.utils.common.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -111,7 +112,7 @@ public class ImageInfoServiceImpl extends ServiceImpl<ImageInfoMapper, ImageInfo
     @Override
     public void updateImageCode(List<String> code, String customerCode, String vehicleCode) {
         List<ImageInfo> images = this.list(new QueryWrapper<ImageInfo>()
-                .in("code", code))
+                .in("code", code.size() == 0 ? Arrays.asList("null") : code))
                 .stream()
                 .map(new Function<ImageInfo, ImageInfo>() {
                     @Override

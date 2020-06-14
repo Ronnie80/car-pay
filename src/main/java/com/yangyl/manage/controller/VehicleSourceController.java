@@ -99,7 +99,7 @@ public class VehicleSourceController {
     @ApiOperation(value = "删除车辆信息来源")
     @GetMapping("/api/vehicleSource/delete")
     public Response delete(@RequestParam Integer id) {
-        if (vehicleSourceService.removeById(id)) {
+        if (vehicleSourceService.removeSource(id)) {
             return Response.ok();
         } else {
             return Response.err("删除信息失败");

@@ -23,4 +23,6 @@ public interface VehicleSourceService extends IService<VehicleSource> {
 
     VehicleSource getInfoByVehicleCode(String vehicleCode);
 
+    boolean removeSource(Integer id);
+
 }

@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CustomerInfoService extends IService<CustomerInfo> {
 
+    CustomerInfo getByCustomerCode(String customerCode);
+
 }
