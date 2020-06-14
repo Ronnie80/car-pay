@@ -11,6 +11,7 @@
         <result column="id_card_number" property="idCardNumber"/>
         <result column="vehicle_name" property="vehicleName"/>
         <result column="license_plate" property="licensePlate"/>
+        <result column="purchase_date" property="purchaseDate"/>
         <result column="total_amount" property="totalAmount"/>
         <result column="down_payment" property="downPayment"/>
         <result column="period_number" property="periodNumber"/>
@@ -22,6 +23,7 @@
         <result column="remark" property="remark"/>
         <result column="is_delete" property="isDelete"/>
     </resultMap>
+
     <select id="pageVehicleInfo" resultMap="BaseResultMap">
         SELECT
         vsl.id,
@@ -39,6 +41,7 @@
         vsl.actual_payment_amount,
         vsl.current_period_pay_status,
         vsl.phasing_status as phasing_status,
+        (SELECT rr.repayment_date FROM repayment_records rr WHERE rr.vehicle_code = vsl.vehicle_code AND rr.repayment_status = 0 ORDER BY rr.repayment_date ASC LIMIT 0,1) as repayment_date,
         vsl.create_time,
         vsl.is_delete
         FROM
@@ -100,4 +103,8 @@
         order by vsl.create_time desc
     </select>
 
+
+    <select id="getInfoByVehicleCode" parameterType="java.lang.String"  resultType="com.yangyl.manage.entity.VehicleSaleInfo">
+        SELECT * FROM vehicle_sale_info WHERE vehicle_code=#{vehicleCode}
+    </select>
 </mapper>

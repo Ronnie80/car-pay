@@ -123,4 +123,8 @@ public class VehicleSourceServiceImpl extends ServiceImpl<VehicleSourceMapper, V
         }
         return null;
     }
+
+    public VehicleSource getInfoByVehicleCode(String vehicleCode) {
+        return this.baseMapper.getInfoByVehicleCode(vehicleCode);
+    }
 }

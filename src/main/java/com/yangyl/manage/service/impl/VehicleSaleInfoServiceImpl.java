@@ -1,5 +1,6 @@
 package com.yangyl.manage.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -132,6 +134,10 @@ public class VehicleSaleInfoServiceImpl extends ServiceImpl<VehicleSaleInfoMappe
             e.printStackTrace();
         }
         return null;
+    }
+
+    public VehicleSaleInfo getInfoByVehicleCode(String vehicleCode) {
+        return this.baseMapper.getInfoByVehicleCode(vehicleCode);
     }
 
 }

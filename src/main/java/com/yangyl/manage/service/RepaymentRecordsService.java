@@ -1,5 +1,7 @@
 package com.yangyl.manage.service;
 
+import java.util.List;
+
 import com.yangyl.manage.common.dto.Response;
 import com.yangyl.manage.entity.RepaymentRecords;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -22,4 +24,6 @@ public interface RepaymentRecordsService extends IService<RepaymentRecords> {
     Response repairPay(Integer id);
 
     RepaymentRecords getList(String vehicleCode);
+
+    List<RepaymentRecords> getListByVehicleCode(String vehicleCode);
 }

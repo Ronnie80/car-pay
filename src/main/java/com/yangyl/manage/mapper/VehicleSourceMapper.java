@@ -24,4 +24,6 @@ public interface VehicleSourceMapper extends BaseMapper<VehicleSource> {
                                  @Param("endTime") String endTime,
                                  @Param("repaymentsType") Integer repaymentsType,
                                  @Param("settleType") Integer settleType);
+
+    VehicleSource getInfoByVehicleCode(String vehicleCode);
 }

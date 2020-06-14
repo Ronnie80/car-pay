@@ -34,6 +34,8 @@
         vsl.actual_payment_amount as actualPaymentAmount,
         vsl.current_period_pay_status as currentPeriodPayStatus,
         vsl.phasing_status as phasingStatus,
+        (SELECT rr.repayment_date FROM repayment_records rr WHERE rr.vehicle_code = vsl.vehicle_code AND
+        rr.repayment_status = 0 ORDER BY rr.repayment_date ASC LIMIT 0,1) as repayment_date,
         vsl.create_time,
         vsl.is_delete
         FROM
@@ -91,4 +93,7 @@
         order by vsl.create_time desc
     </select>
 
+    <select id="getInfoByVehicleCode" parameterType="java.lang.String"  resultType="com.yangyl.manage.entity.VehicleSource">
+        SELECT * FROM vehicle_source WHERE vehicle_code=#{vehicleCode}
+    </select>
 </mapper>

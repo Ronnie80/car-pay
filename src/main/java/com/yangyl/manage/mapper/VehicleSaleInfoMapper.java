@@ -25,4 +25,7 @@ public interface VehicleSaleInfoMapper extends BaseMapper<VehicleSaleInfo> {
                                            @Param("licensePlate") String licensePlate,
                                            @Param("startTime") String startTime,
                                            @Param("endTime") String endTime);
+
+    VehicleSaleInfo getInfoByVehicleCode(String vehicleCode);
+
 }

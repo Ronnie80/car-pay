@@ -21,4 +21,6 @@ public interface VehicleSourceService extends IService<VehicleSource> {
 
     IPage<VehicleSourceVo> pages(VehicleSourceParam param);
 
+    VehicleSource getInfoByVehicleCode(String vehicleCode);
+
 }

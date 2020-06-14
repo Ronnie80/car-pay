@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -91,9 +92,30 @@ public class RepaymentRecordsServiceImpl extends ServiceImpl<RepaymentRecordsMap
 
     @Override
     public Response repairPay(Integer id) {
-        RepaymentRecords byId = this.getById(id);
-        byId.setRepaymentStatus(1);
-        boolean flag = this.updateById(byId);
+        RepaymentRecords record = this.getById(id);
+        record.setRepaymentStatus(1);
+        boolean flag = this.updateById(record);
+        // 遍历记录表，如果都已还款则更改主表状态
+        List<RepaymentRecords> records = getListByVehicleCode(record.getVehicleCode());
+        boolean isSettled = true; // 标识是否全部还完
+        for (RepaymentRecords r : records) {
+            if (r.getRepaymentStatus().equals(0)) {
+                isSettled = false;
+                break;
+            }
+        }
+        if (isSettled) {
+            VehicleSaleInfo info = vehicleSaleInfoService.getInfoByVehicleCode(record.getVehicleCode());
+            if (info != null) {
+                info.setPhasingStatus(1);
+                vehicleSaleInfoService.updateById(info);
+            }
+            VehicleSource source = vehicleSourceService.getInfoByVehicleCode(record.getVehicleCode());
+            if (source != null) {
+                source.setPhasingStatus(1);
+                vehicleSourceService.updateById(source);
+            }
+        }
         if (flag) {
             return Response.ok();
         } else {
@@ -111,6 +133,18 @@ public class RepaymentRecordsServiceImpl extends ServiceImpl<RepaymentRecordsMap
             return list.get(0);
         }else {
             return null;
+        }
+    }
+
+    @Override
+    public List<RepaymentRecords> getListByVehicleCode(String vehicleCode) {
+        QueryWrapper<RepaymentRecords> query = new QueryWrapper();
+        query.eq("vehicle_code", vehicleCode);
+        List<RepaymentRecords> list = this.list(query);
+        if (list != null && list.size() >0){
+            return list;
+        }else {
+            return Collections.emptyList();
         }
     }
 }
